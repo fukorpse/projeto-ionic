@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonInput, IonButton, IonList, IonLabel, IonIcon } from '@ionic/angular/standalone';
-
 //Função para adicionar o icone
 
 import { addIcons } from 'ionicons';
@@ -10,6 +9,7 @@ import { addIcons } from 'ionicons';
 //Importar o icone
 
 import {ellipseOutline,checkmarkCircle, eye, eyeOff, trash } from 'ionicons/icons'
+import { TasksService } from '../service/tasks.service';
 
 //Interfaca para criar um "objeto" com nossa tarefa
 interface Task {
@@ -30,7 +30,23 @@ export class HomePage {
 
   exibirConcluidos: boolean = true; // Variavel de controle para exibir ou ocultar
 
-  addTask() {
+  // addTask() {
+  //   if (this.newTask.trim()) {
+
+  //     const newTaskObj: Task = { // Cria objeto Task
+  //       id: Date.now(),
+  //       title: this.newTask.trim(),
+  //       completed: false
+  //     };
+  //     this.tasks.push(newTaskObj);
+
+  //     this.newTask = '';
+      
+  //   }
+    
+  // }
+
+  async addTask() {
     if (this.newTask.trim()) {
 
       const newTaskObj: Task = { // Cria objeto Task
@@ -38,13 +54,15 @@ export class HomePage {
         title: this.newTask.trim(),
         completed: false
       };
-      this.tasks.push(newTaskObj);
+      
+      // this.tasks.push(newTaskObj);
+      await this.taskService.addTask(newTaskObj);
+
+      this.tasks = await this.taskService.getTask();
 
       this.newTask = '';
       
     }
-
-
     
   }
 
@@ -67,7 +85,7 @@ export class HomePage {
   }
 
 
-  constructor() {
+  constructor(private taskService: TasksService) {
 
     addIcons({ellipseOutline, checkmarkCircle, eye, eyeOff, trash});
    }
