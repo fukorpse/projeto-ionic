@@ -1,0 +1,57 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Tarefas
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+
+  <ion-item>
+    <ion-input [(ngModel)]="newTask" placeholder="Adicionar nova Tarefa">
+
+    </ion-input>
+
+    <ion-button (click)="addTask()">
+      Adicionar
+    </ion-button>
+
+  </ion-item>
+
+  <ion-list>
+
+    <ion-item *ngFor="let tarefa of filteredTasks">
+    <ion-label 
+    [ngClass]="{'completado-task': tarefa.completed}">
+      {{ tarefa.title }}
+    </ion-label>
+
+    <ion-button fill = "clear" (click)="deletarTask(tarefa.id)"  color="danger">
+      <ion-icon name="trash"> </ion-icon>
+    </ion-button>
+
+    <ion-button fill="clear" (click)="concluir(tarefa.id)" color="success">
+      <ion-icon [name]="tarefa.completed ? 'checkmark-circle':'ellipse-outline'">
+
+      </ion-icon>
+
+    </ion-button>
+
+    </ion-item>
+
+  </ion-list>
+
+  <ion-button expand="full" (click)="mostrarOcultar()">
+    <!--Adiciona icone olho no botão -->
+    <ion-icon slot="start" [name]="exibirConcluidos ? 'eye-off':'eye'">    </ion-icon>
+   
+    <!--Altera o texto do botão conforme a variavel exibirConcluidos -->
+    
+    {{ exibirConcluidos ? 'Ocultar Concluidos': 'Mostrar Concluidos' }}
+  
+  </ion-button>
+
+
+</ion-content>
